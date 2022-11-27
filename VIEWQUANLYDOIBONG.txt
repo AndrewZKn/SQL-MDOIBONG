@@ -1,0 +1,133 @@
+CREATE VIEW vCau1
+as
+SELECT MaCT,So,HoTen,NgaySinh,ĐiaChi,ViTri
+FROM CAUTHU c,QUOCGIA q,CAULACBO clb
+WHERE TenQG = 'BRAZIL'
+AND c.MaQG = q.MaQG 
+AND c.MaCLB=clb.MaCLB
+AND TenCLB = N'SHB Đà Nẵng' 
+---đanglỗi Condition not ACTIVITY VÌ KHÔNG CÓ N'SHB Đà Nẵng' thiếu "N"
+go
+
+CREATE VIEW vCau2
+as
+SELECT MaTran,NgayTD,TenSan,KetQua,c1.tenclb tenclb1,c2.tenclb tenclb2
+FROM TRANDAU t,SANVD s,CAULACBO c1,CAULACBO c2
+WHERE 
+Vong =3 AND Nam =2009 
+AND t.MaSan=s.MaSan 
+AND t.MaCLB1 =c1.MaCLB 
+AND t.MaCLB2 =c2.MaCLB
+go
+
+
+
+CREATE VIEW vCau3
+AS
+SELECT HV1.MaHLV,TenHLV,NgaySinh,ĐiaChi,Vaitro,TenCLB
+FROM HLV HV1,HLV_CLB HVCLB,CAULACBO CLB,QUOCGIA Q
+WHERE 
+Q.TenQG LIKE N'Việt Nam' 
+AND HVCLB.MaHLV = HV1.MaHLV
+AND HV1.MaQG = Q.MaQG
+AND HVCLB.MaCLB = CLB.MaCLB
+go
+
+
+CREATE VIEW vCau4
+as
+SELECT c.MaCLB,clb.TenCLB,s.TenSan,S.ĐiaChi,count(MaCT) slNgoaiBinh
+FROM CAUTHU c,SANVD S,CAULACBO CLB,QUOCGIA Q
+WHERE
+Q.TenQG LIKE N'Việt Nam' 
+AND C.MaQG=Q.MaQG 
+AND CLB.MaSan =S.MaSan
+AND C.MaCLB=CLB.MaCLB
+GROUP BY c.MaCLB,clb.TenCLB,s.TenSan,S.ĐiaChi
+having count(MaCT) >=2
+go
+
+
+
+CREATE VIEW vCau5
+
+as
+SELECT t.TenTinh, count(MaCT) as SLQUANLY
+FROM TINH t,CAULACBO clb,CAUTHU c
+WHERE
+c.ViTri like N'Tiền Đạo'
+AND clb.MaTinh=t.MaTinh
+AND C.MaCLB= CLB.MaCLB
+GROUP BY t.TenTinh
+go
+
+
+
+CREATE VIEW vCau6
+
+as
+SELECT MAX(Điem) as SĐCN,clb.TenCLB,t.TenTinh
+FROM TINH t,CAULACBO clb,BangXH xh
+WHERE
+Vong = 3 and Nam =2009
+AND clb.MaTinh =t.MaTinh
+AND xh.MaCLB = clb.MaCLB
+GROUP BY clb.TenCLB,t.TenTinh
+go
+
+
+
+
+CREATE VIEW vCau7
+AS
+
+SELECT HCL.VaiTro,TenHLV,H.ĐienThoai
+FROM HLV H ,HLV_CLB HCL, QUOCGIA Q,CAULACBO CL
+WHERE H.ĐienThoai IS NULL AND
+ HCL.MaCLB = CL.MaCLB
+and H.MaQG = Q.MaQG
+and HCL.MaHLV = H.MaHLV 
+
+go
+
+CREATE VIEW vCau8
+as
+select TenHLV,TenQG	
+from HLV H,CAULACBO CL,HLV_CLB HCL,QUOCGIA Q
+WHERE HCL.MaCLB =CL.MaCLB
+and H.MaQG = Q.MaQG
+and HCL.MaHLV = H.MaHLV
+AND TenQG LIKE N'Việt Nam'
+and HCL.MaCLB  NOT IN (N'BECAMEX Bình Dương',N'Gạch Đồng Tâm Long An',N'Hoàng Anh Gia Lai',N'KHATOCO Khánh Hòa',N'SHB Đà Nẵng',N'Thép Phú Yên')
+
+go
+
+CREATE VIEW vCau9
+
+AS
+select TOP 1 xh.Hang, T.NgayTD,sv.TenSan,c1.TenCLB TenCLB1,C2.TenCLB tenCLB2,KetQua
+FROM TRANDAU t,CAULACBO c1,BangXH XH,SANVD sv,CAULACBO c2
+WHERE t.Vong= 3 AND T.Nam= 2009
+AND xh.MaCLB = c1.MaCLB 
+and t.maclb2 = c2.MaCLB
+and c1.masan = sv.MaSan
+and t.MaSan = sv.MaSan
+
+group by T.NgayTD,sv.TenSan,C2.TenCLB ,KetQua,c1.TenCLB,xh.Hang
+ORDER BY Hang desc
+go 
+
+CREATE VIEW vCau10
+
+AS
+select TOP 1 xh.Hang, T.NgayTD,sv.TenSan,c1.TenCLB TenCLB1,C2.TenCLB tenCLB2,KetQua
+FROM TRANDAU t,CAULACBO c1,BangXH XH,SANVD sv,CAULACBO c2
+WHERE t.Vong= 3 AND T.Nam= 2009
+AND xh.MaCLB = c1.MaCLB 
+and t.maclb2 = c2.MaCLB
+and c1.masan = sv.MaSan
+and t.MaSan = sv.MaSan
+
+group by T.NgayTD,sv.TenSan,C2.TenCLB ,KetQua,c1.TenCLB,xh.Hang
+ORDER BY Hang asc
+go 

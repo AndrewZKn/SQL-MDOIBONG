@@ -1,0 +1,226 @@
+CREATE DATABASE QUANLYBONGDA
+GO
+USE QUANLYBONGDA
+GO
+
+
+CREATE TABLE TRANDAU
+(
+--MaTran NUMERIC IDENTITY(1,1) PRIMARY KEY,
+MaTran NUMERIC PRIMARY KEY,
+Nam INT NOT NULL,
+Vong INT NOT NULL,
+NgayTD DATETIME NOT NULL,
+MaCLB1 VARCHAR(5) NOT NULL,
+MACLB2 VARCHAR(5) NOT NULL,
+MaSan VARCHAR(5) NOT NULL,
+KetQua VARCHAR(5) NOT NULL,
+)
+
+CREATE TABLE CAULACBO
+(
+MaCLB VARCHAR(5) PRIMARY KEY,
+TenCLB NVARCHAR(100) NOT NULL,
+MaSan VARCHAR(5) NOT NULL,
+MaTinh VARCHAR(5) NOT NULL,
+)
+
+CREATE TABLE TINH
+(
+MaTinh VARCHAR(5) PRIMARY KEY,
+TenTinh NVARCHAR(100) NOT NULL,
+)
+CREATE TABLE SANVD
+(
+MaSan VARCHAR(5) PRIMARY KEY,
+TenSan NVARCHAR(100) NOT NULL,
+ĐiaChi NVARCHAR(200) NULL,
+)
+CREATE TABLE QUOCGIA
+(
+MaQG VARCHAR(5) PRIMARY KEY,
+TenQG NVARCHAR(60) NOT NULL,
+)
+CREATE TABLE HLV
+(
+MaHLV VARCHAR(5) PRIMARY KEY,
+TenHLV NVARCHAR(100) NOT NULL,
+NgaySinh DATETIME ,
+ĐiaChi NVARCHAR(200) NULL,
+ĐienThoai NVARCHAR(20) NULL,
+MaQG VARCHAR(5) NOT NULL,
+)
+CREATE TABLE HLV_CLB
+(
+MaHLV VARCHAR(5) ,
+MaCLB VARCHAR(5),
+VaiTro NVARCHAR(100) NOT NULL,
+PRIMARY KEY(MaHLV,MaCLB),
+)
+CREATE TABLE CAUTHU
+(
+---MaCT NUMERIC IDENTITY(1,1) PRIMARY KEY,
+
+MaCT NUMERIC PRIMARY KEY,
+HoTen NVARCHAR(100) NOT NULL,
+ViTri NVARCHAR(20) NOT NULL,
+NgaySinh DATETIME,
+ĐiaChi NVARCHAR(200) NULL,
+MaCLB VARCHAR(5) NOT NULL,
+MaQG VARCHAR(5) NOT NULL,
+So INT NOT NULL,
+)
+CREATE TABLE BangXH
+(
+MaCLB VARCHAR(5) ,
+Nam INT,
+Vong INT,
+SoTran INT NOT NULL,
+Thang INT NOT NULL,
+Hoa INT NOT NULL,
+Thua INT NOT NULL,
+HieuSo VARCHAR(5) NOT NULL,
+Điem INT NOT NULL,
+Hang INT NOT NULL,
+PRIMARY KEY(MaCLB,Nam,Vong),
+)
+---TRANDAU
+INSERT INTO TRANDAU(MaTran,Nam,Vong,NgayTD,MaCLB1,MACLB2,MaSan,KetQua)
+VALUES
+(1,2009,1,'2009/02/07','BBD','SDN','GD','3-0'),
+(2,2009,1,'2009/02/07','KKH','GDT','NT','1-1'),
+(3,2009,2,'2009/02/16','SDN','KKH','CL','2-2'),
+(4,2009,2,'2009/02/16','TPY','BBD','TH','5-0'),
+(5,2009,3,'2009/03/01','TPY','GDT','TH','0-2'),
+(6,2009,3,'2009/03/01','KKH','BBD','NT','0-1'),
+(7,2009,4,'2009/03/07','KKH','TPY','NT','1-0'),
+(8,2009,4,'2009/03/07','BBD','GDT','GD','2-2')
+GO
+--TINH
+INSERT INTO TINH(MaTinh,TenTinh)
+VALUES
+('BD',N'Bình Dương'),
+('GL',N'Gia Lai'),
+('DN',N'Đà Nẵng'),
+('KH',N'Khánh Hòa'),
+('PY',N'Phú Yên'),
+('LA',N'Long An')
+GO
+--SANVD
+INSERT INTO SANVD(MaSan,TenSan,ĐiaChi)
+VALUES
+('GD',N'Gò Đậu',   N'123 QLI,TX Thủ Dầu Một Bình Dương'),
+('PL',N'PleiKu',   N'22 Hồ Tùng Mậu Thống Nhất Thị Xã PleiKu Gia Lai'),
+('CL',N'Chi Lân',  N'127 Võ Văn Tấn Đà Nẵng'),
+('NT',N'Nha Trang',N'128 Phan Chu Trinh Nha Trang Khánh Hòa'),
+('TH',N'Tuy Hòa',  N'57 Trường Chinh Tuy Hòa Phú Yên'),
+('LA',N'Long An',  N'102 Hùng Vương TP Tân An Long An')
+GO
+--QUOCGIA
+INSERT INTO QUOCGIA(MaQG,TenQG)
+VALUES
+('VN', N'Việt Nam'),
+('Anh',N'Anh Quốc'),
+('TBN',N'Tây Ban Nha'),
+('BDN',N'Bồ Đào Nha'),
+('BRA',N'Brazil'),
+('ITA',N'Ý'),
+('THA',N'Thái Lan')
+GO
+--HLV
+INSERT INTO HLV(MaHLV,TenHLV,NgaySinh,ĐienThoai,MaQG)
+VALUES
+('HLV01',N'ViTal',         '1955/10/15',N'0918011075',  'BDN'),
+('HLV02',N'Lê Huỳnh Đức',  '1972/05/20',N'01223456789', 'VN'),
+('HLV03',N'Kiatisuk',      '1970/12/11',N'019900123456','THA'),
+('HLV04',N'Hoàng Anh Tuấn','1970/06/10',N'0989112233',  'VN'),
+('HLV05',N'Trần Công Minh','1973/07/07',N'0909099990',  'VN'),
+('HLV06',N'Trần Văn Phúc', '1965/03/02',N'01650101234', 'VN')
+GO
+--HLV-CLB
+INSERT INTO HLV_CLB(MaHLV,MaCLB,VaiTro)
+VALUES
+('HLV01',N'BBD', N'HLV chính'),
+('HLV02',N'SDN', N'HLV chính'),
+('HLV03',N'HAGL',N'HLV chính'),
+('HLV04',N'KKH', N'HLV chính'),
+('HLV05',N'GDT', N'HLV chính'),
+('HLV06',N'BBD', N'HLV thủ môn')
+GO
+---CAUTHU
+INSERT INTO CAUTHU(MaCT,HoTen,ViTri,NgaySinh,MaCLB,MaQG,So)
+VALUES 
+(1, N'Nguyễn Vũ Phong',  N'Tiền Đạo','1990/02/20','BBD', 'VN', 17),
+(2, N'Nguyễn Công Vinh', N'Tiền Vệ', '1992/03/10','HAGL','VN', 9),
+(3, N'Trần Tấn Tài',     N'Thủ Môn', '1989/11/12','BBD', 'VN', 8),
+(4, N'Phan Hồng Sơn',    N'Tiền Vệ', '1991/06/10','HAGL','VN', 1),
+(5, N'Ronadol',          N'Tiền Vệ', '1989/12/12','SDN', 'BRA',7),
+(6, N'Robinho',          N'Hậu Vệ',  '1989/10/12','SDN', 'BRA',8),
+(7, N'Vidic',            N'Thủ Môn', '1987/10/15','HAGL','ANH',3),
+(8, N'Trần Văn Santos',  N'Hậu Vệ',  '1990/10/21','BBD', 'BRA',1),
+(9, N'Nguyễn Trường Sơn',N'Tiền Vệ', '1993/08/26','BBD', 'VN', 4),
+(10,N'Huỳnh Phước Trí',  N'Tiền Vệ', '2002/07/19','BBD', 'VN', 10)
+GO
+--CAULACBO
+INSERT INTO CAULACBO(MaCLB,TenCLB,MaSan,MaTinh)
+VALUES 
+('BBD', N'BECAMEX Bình Dương',   'GD','BD'),
+('HAGL',N'Hoàng Anh Gia Lai',    'PL','GL'),
+('SDN', N'SHB Đà Nẵng',          'CL','DN'),
+('KKH', N'KHATOCO Khánh Hòa',    'NT','KH'),
+('TPY', N'Thép Phú Yên',         'TH','PY'),
+('GDT', N'Gạch Đồng Tâm Long An','LA','LA')
+GO
+
+--BANGXH
+INSERT INTO BangXH(MaCLB,Nam,Vong,SoTran,Thang,Hoa,Thua,HieuSo,Điem,Hang)
+VALUES
+('BBD',2009,1,1,1,0,0,'3-0',3,1),
+('KKH',2009,1,1,0,1,0,'1-0',1,2),
+('GDT',2009,1,1,0,1,0,'1-0',1,3),
+('TPY',2009,1,0,0,0,0,'0-0',0,4),
+('SDN',2009,1,1,0,0,1,'0-3',0,5),
+
+('TPY',2009,2,1,1,0,0,'5-0',3,1),
+('BBD',2009,2,2,1,0,1,'3-5',3,2),
+('KKH',2009,2,2,0,2,0,'3-3',2,3),
+('GDT',2009,2,1,0,1,0,'1-1',1,4),
+('SDN',2009,2,2,1,1,0,'2-5',1,5),
+
+('BBD',2009,3,3,2,0,0,'4-5',6,1),
+('GDT',2009,3,2,1,1,1,'3-1',4,2),
+('TPY',2009,3,2,1,0,0,'5-2',3,3),
+('KKH',2009,3,3,0,2,1,'3-4',2,4),
+('SDN',2009,3,2,1,1,1,'2-5',1,5),
+
+('BBD',2009,4,4,2,1,0,'6-7',7,1),
+('GDT',2009,4,3,1,2,1,'5-1',5,2),
+('KKH',2009,4,4,1,2,1,'4-4',5,3),
+('TPY',2009,4,3,1,0,2,'5-3',3,4),
+('SDN',2009,4,2,1,1,0,'2-5',1,5)
+GO
+
+
+
+---FOREIGN KEY
+
+ALTER TABLE TRANDAU ADD FOREIGN KEY(MaCLB1) REFERENCES CAULACBO(MaCLB);
+ALTER TABLE TRANDAU ADD FOREIGN KEY(MaCLB2) REFERENCES CAULACBO(MaCLB);
+ALTER TABLE TRANDAU ADD FOREIGN KEY(MaSan) REFERENCES SANVD(MaSan);
+
+ALTER TABLE CAULACBO ADD FOREIGN KEY(MaSan) REFERENCES SANVD(MaSan);
+ALTER TABLE CAULACBO ADD FOREIGN KEY(MaTinh) REFERENCES TINH(MaTinh);
+ 
+ALTER TABLE CAUTHU ADD FOREIGN KEY(MaCLB) REFERENCES CAULACBO(MaCLB);
+ALTER TABLE CAUTHU ADD FOREIGN KEY(MaQG) REFERENCES QUOCGIA(MaQG);
+
+ALTER TABLE BANGXH ADD FOREIGN KEY(MaCLB) REFERENCES CAULACBO(MaCLB);
+
+ALTER TABLE HLV_CLB ADD FOREIGN KEY(MaHLV) REFERENCES HLV(MaHLV);
+
+ALTER TABLE HLV_CLB ADD FOREIGN KEY(MaCLB) REFERENCES CAULACBO(MaCLB);
+ALTER TABLE HLV ADD FOREIGN KEY(MaQG) REFERENCES QUOCGIA(MaQG);
+--2 ĐOẠN ĐANG BỊ LỖI
+---The ALTER TABLE statement conflicted with the FOREIGN KEY constraint "FK__HLV_CLB__MaCLB__59FA5E80". The conflict occurred in database "QUANLYBONGDA", table "dbo.CAULACBO", column 'MaCLB'.
+--NGUYÊN NHÂN ??? BỊ XUNG ĐỘT DỮ LIỆU
+--SOLUTION kiểm tra dữ liệu trong 2 bảng có khớp không
